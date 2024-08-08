@@ -1,11 +1,11 @@
 package jin.oauthsession.config;
 
-import jin.service.CustomOAuth2UserService;
+import jin.oauthsession.service.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -14,7 +14,6 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
 
-    // SecurityConfig 생성자 방식으로 해당 객체를 주입 받는다.
     public SecurityConfig(CustomOAuth2UserService customOAuth2UserService) {
         this.customOAuth2UserService = customOAuth2UserService;
     }
@@ -25,7 +24,7 @@ public class SecurityConfig {
 
         // 개발 환경이기에 csrf 설정을 꺼준다.
         http
-                .csrf((csrf) -> csrf.disable());
+                .csrf(AbstractHttpConfigurer::disable);
         // 폼 로그인을 사용하지 않을 거기 때문에 꺼준다.
         http
                 .formLogin((login) -> login.disable());
