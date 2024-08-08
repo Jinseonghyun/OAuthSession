@@ -1,5 +1,6 @@
 package jin.oauthsession.config;
 
+import jin.service.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -10,6 +11,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final CustomOAuth2UserService customOAuth2UserService;
+
+    // SecurityConfig 생성자 방식으로 해당 객체를 주입 받는다.
+    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService) {
+        this.customOAuth2UserService = customOAuth2UserService;
+    }
 
     @Bean // SecurityFilterChain 인터페이스를 리턴하는 메소드를 작성할건데 인자는 http
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -26,7 +34,9 @@ public class SecurityConfig {
                 .httpBasic((basic) -> basic.disable());
         // oauth2 client 방식을 세팅하면 각각의 필터와 내무등록 정보 다 커스텀 해야한다. 그래서 로그인 방식으로 한다
         http
-                .oauth2Login(Customizer.withDefaults()); // 초기 세팅
+                .oauth2Login((oauth2) -> oauth2
+                        .userInfoEndpoint(userInfoEndpointConfig ->  // userInfoEndpoint 가 우리가 데이터를 받을 수 있는 userDetailsService 를 예전에 등록했다는 의미
+                                userInfoEndpointConfig.userService(customOAuth2UserService))); // userInfoEndpointConfig 에서 userService 를 등록할 때 customOAuth2UserService 를 등록해 주자
 
         // oauth2 각각의 경로에 대한 세팅
         http
