@@ -29,6 +29,6 @@ public class KakaoResponse implements OAuth2Response {
 
     @Override
     public String getName() {
-        return attributes.get("name").toString(); // name 은 attributes 에서 name 키를 꺼낸다.toString 으로 스트링을 응답한다.
+        return attributes.get("nickname").toString(); // name 은 attributes 에서 name 키를 꺼낸다.toString 으로 스트링을 응답한다.
     }
 }
