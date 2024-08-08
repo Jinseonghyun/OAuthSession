@@ -1,8 +1,6 @@
-package jin.service;
+package jin.oauthsession.service;
 
-import jin.oauthsession.dto.GoogleResponse;
-import jin.oauthsession.dto.NaverResponse;
-import jin.oauthsession.dto.OAuth2Response;
+import jin.oauthsession.dto.*;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -30,9 +28,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         } else if (registratinId.equals("google")) {
             oAuth2Response = new GoogleResponse(oAuth2User.getAttributes());
         } else if (registratinId.equals("kakao")) {
-
+            oAuth2Response = new KakaoResponse(oAuth2User.getAttributes());
         } else {
             return null;
         }
+
+        // 기본적인 롤이 유저라고 가정한다
+        // role 값을 아래에서 CustomOAuth2User 유저로 넘겨주기 때문에 CustomOAuth2User 에서 받아줘야 한다.
+        String role = "ROLE_USER";
+
+        // dto 를 만들어 응답해준다.
+        return new CustomOAuth2User(oAuth2Response, role);  //  특정한 유저에 대한 롤 값이 없기 때문에 롤을 넣어준다.
     }
 }
