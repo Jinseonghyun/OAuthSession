@@ -34,6 +34,7 @@ public class SecurityConfig {
         // oauth2 client 방식을 세팅하면 각각의 필터와 내무등록 정보 다 커스텀 해야한다. 그래서 로그인 방식으로 한다
         http
                 .oauth2Login((oauth2) -> oauth2
+                        .loginPage("/login") // 커스텀 로그인 페이지 경로 명시
                         .userInfoEndpoint(userInfoEndpointConfig ->  // userInfoEndpoint 가 우리가 데이터를 받을 수 있는 userDetailsService 를 예전에 등록했다는 의미
                                 userInfoEndpointConfig.userService(customOAuth2UserService))); // userInfoEndpointConfig 에서 userService 를 등록할 때 customOAuth2UserService 를 등록해 주자
 
