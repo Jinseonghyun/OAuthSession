@@ -8,5 +8,5 @@
 
 - docker, mysql, jpa
 
-    - 무중단 배포
+    - 무중단 배포(Nginx)
     - Replication(source, replica)
