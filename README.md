@@ -9,4 +9,4 @@
 - docker, mysql, jpa
 
     - 무중단 배포
-    - Replication
+    - Replication(source, replica)
