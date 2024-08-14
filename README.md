@@ -10,3 +10,7 @@
 
     - 무중단 배포(Nginx)
     - Replication(source, replica)
+
+
+- 프론트
+    - React
